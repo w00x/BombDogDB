@@ -1,0 +1,8 @@
+{
+	datatype: [
+			{type:"",length:10},
+			{type:"",length:10},
+			{type:"",length:10},
+			{type:"",length:10}	
+		]
+}
