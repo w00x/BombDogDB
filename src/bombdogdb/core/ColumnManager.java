@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package bombdogdb.core;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -10,36 +11,36 @@ import java.util.ArrayList;
  *
  * @author w00x
  */
-public class IndexManager {
-    public IndexManager(String index_name) {
+public class ColumnManager {
+    public ColumnManager(String colum_name) {
         
     }
     
-    public boolean createIndex() {
+    public boolean createRow() {
         return true;
     }
     
-    public static IndexManager createIndex(String row) {
+    public static ColumnManager createColumn(String row) {
         return null;
     }
     
-    public IndexManager readIndex(long index_id) {
+    public ColumnManager readRow(long raw_id) {
         return null;
     }
     
-    public boolean updateIndex(long index_id,String new_val) {
+    public boolean updateRow(long raw_id,String new_val) {
         return true;
     }
     
-    public boolean deleteIndex(long index_id) {
+    public boolean deleteRow(long raw_id) {
         return true;
     }
     
-    public String search(String busco) {
+    public ColumnManager bruteSearch(String busco) {
         return null;
     }
     
-    public ArrayList<String> searchAll(String busco) {
+    public ArrayList<String> bruteSearchAll(String busco) {
         return null;
     }
 }
