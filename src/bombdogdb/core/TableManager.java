@@ -5,7 +5,13 @@
 package bombdogdb.core;
 
 import bombdogdb.core.data.DataTable;
+import bombdogdb.core.exceptions.ContenedorNotExistException;
+import bombdogdb.core.exceptions.ErrorIOInstanceException;
+import bombdogdb.core.exceptions.PermissionException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -13,30 +19,60 @@ import java.util.ArrayList;
  */
 public class TableManager {
     private ArrayList<ColumnManager> columnList;
-    private String tableName;
+    private String table_name;
+    private DBManager db_manager;
+    private String actual_dir = System.getProperty("user.dir")+"/dbs/";
+    private File table_dir;
     
-    public TableManager(String table_name) {
-        
+    public TableManager(DBManager db_manager,String table_name) {
+        this.table_name = table_name;
+        this.db_manager = db_manager;
+        this.table_dir = new File(this.actual_dir+this.db_manager.getDBName()+"/"+this.table_name); 
     }
     
-    public boolean createTable() {
-        return true;
+    public void createTable() throws PermissionException, ErrorIOInstanceException {
+        try {
+            this.table_dir.mkdir();
+            new File(this.table_dir.getAbsolutePath()+"/columns").mkdir();
+            new File(this.table_dir.getAbsolutePath()+"/index").mkdir();
+            new File(this.table_dir.getAbsolutePath()+"/config.yml").createNewFile();
+        }
+        catch(SecurityException ex) {
+            throw new PermissionException("Violacion de permisos");
+        }
+        catch(IOException ex) {
+            throw new ErrorIOInstanceException("Error al crear instancia");
+        }
     }
     
-    public static TableManager createTable(String table) {
-        return null;
+    public static TableManager getInstance(DBManager db_manager,String table_name) {
+        return new TableManager(db_manager,table_name);
     }
     
-    public boolean renameTable(long index_id,String new_val) {
-        return true;
+    public void renameTable(String new_table_name) throws PermissionException, ContenedorNotExistException {
+        try {
+            this.table_dir.renameTo(new File(this.actual_dir+this.db_manager.getDBName()+"/"+new_table_name));
+        }
+        catch(SecurityException $ex) {
+            throw new PermissionException("Violacion de permisos");
+        }
+        catch(NullPointerException $ex) {
+            throw new ContenedorNotExistException("Contenedor de DB no existe");
+        }
     }
     
-    public boolean deleteTable(long index_id) {
-        return true;
+    public boolean deleteTable() throws ErrorIOInstanceException {
+        try {
+            FileUtils.deleteDirectory(this.table_dir);
+            return true;
+        }
+        catch(IOException ex) {
+            throw new ErrorIOInstanceException("Error al eliminar instancia");
+        }
     }
     
     public String getTableName() {
-        return this.tableName;
+        return this.table_name;
     }
     
     public DataTable select(String columns[]) {
@@ -44,7 +80,7 @@ public class TableManager {
     }
     
     public void setTableName(String table_name) {
-        this.tableName = table_name;
+        this.table_name = table_name;
     }
     
     public void where(ArrayList<WhereJoin> where_simple) {
