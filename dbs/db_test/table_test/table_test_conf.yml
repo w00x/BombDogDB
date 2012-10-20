@@ -1,8 +1,0 @@
-{
-	structure:
-		{
-			id:"int",
-			nombre:"string"
-		}
-
-}
