@@ -4,6 +4,7 @@
  */
 package bombdogdb.core;
 
+import bombdogdb.core.data.DataRow;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -12,35 +13,50 @@ import java.util.ArrayList;
  * @author w00x
  */
 public class ColumnManager {
-    public ColumnManager(String colum_name) {
-        
+    private TableManager table;
+    private String column_name;
+    private String actual_dir = System.getProperty("user.dir")+"/dbs/";
+    private File column;
+    
+    public ColumnManager(TableManager table, String colum_name) {
+        this.table = table;
+        this.column_name = colum_name;
+        this.column = new File(actual_dir+table.getDBManager().getDBName()+"/"+table.getTableName()+"/columns/"+this.column_name);
     }
     
-    public boolean createRow() {
+    public boolean createColumn(boolean sobre_escribir) {
         return true;
     }
     
-    public static ColumnManager createColumn(String row) {
-        return null;
-    }
-    
-    public ColumnManager readRow(long raw_id) {
-        return null;
-    }
-    
-    public boolean updateRow(long raw_id,String new_val) {
+    public boolean deleteColumn() {
         return true;
     }
     
-    public boolean deleteRow(long raw_id) {
+    public boolean updateColumName(String new_name) {
         return true;
     }
     
-    public ColumnManager bruteSearch(String busco) {
+    public static ColumnManager getInstance(TableManager table, String row) {
+        return new ColumnManager(table, row);
+    }
+    
+    public DataRow readRow(long raw_id) {
         return null;
     }
     
-    public ArrayList<String> bruteSearchAll(String busco) {
+    public boolean updateRow(DataRow row) {
+        return true;
+    }
+    
+    public boolean deleteRow(DataRow row) {
+        return true;
+    }
+    
+    public DataRow bruteSearch(String busco) {
+        return null;
+    }
+    
+    public ArrayList<DataRow> bruteSearchAll(String busco) {
         return null;
     }
 }

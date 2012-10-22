@@ -83,6 +83,10 @@ public class TableManager {
         this.table_name = table_name;
     }
     
+    public DBManager getDBManager() {
+        return this.db_manager;
+    }
+    
     public void where(ArrayList<WhereJoin> where_simple) {
         
     }
@@ -106,10 +110,11 @@ public class TableManager {
         return columnList;
     }
 
-    /**
-     * @param columnList the columnList to set
-     */
-    public void setColumnList(ArrayList<ColumnManager> columnList) {
-        this.columnList = columnList;
+    public boolean createColumn(String name) {
+        return true;
+    }
+    
+    public ColumnManager getColumn(String name) {
+        return null;
     }
 }
